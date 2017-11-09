@@ -4,6 +4,7 @@ services:
     image: rabbitmq:3-management
     ports:
       - 15672:15672
+
   config:
     environment:
       CONFIG_SERVICE_PASSWORD: 'password'
@@ -28,6 +29,17 @@ services:
       - config
     ports:
       - 8080:4000
+
+  auth-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: 'password'
+      NOTIFICATION_SERVICE_PASSWORD: 'password'
+      STATISTICS_SERVICE_PASSWORD: 'password'
+      ACCOUNT_SERVICE_PASSWORD: 'password'
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-auth-service
+    depends_on:
+      - config
 
   monitoring:
     environment:
