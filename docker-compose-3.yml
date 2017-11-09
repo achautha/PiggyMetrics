@@ -4,6 +4,11 @@ services:
     image: rabbitmq:3-management
     ports:
       - 15672:15672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   config:
     environment:
@@ -11,24 +16,35 @@ services:
     image: sqshq/piggymetrics-config
     ports:
       - 8888:8888
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   registry:
     environment:
       CONFIG_SERVICE_PASSWORD: 'password'
     image: sqshq/piggymetrics-registry
-    depends_on:
-      - config
     ports:
       - 8761:8761
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   gateway:
     environment:
       CONFIG_SERVICE_PASSWORD: 'password'
     image: sqshq/piggymetrics-gateway
-    depends_on:
-      - config
     ports:
       - 8080:4000
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   auth-service:
     environment:
@@ -38,13 +54,21 @@ services:
       ACCOUNT_SERVICE_PASSWORD: 'password'
       MONGODB_PASSWORD: 'password'
     image: sqshq/piggymetrics-auth-service
-    depends_on:
-      - config
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   auth-mongodb:
     environment:
       MONGODB_PASSWORD: 'password'
     image: sqshq/piggymetrics-mongodb
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   account-service:
     environment:
@@ -52,14 +76,22 @@ services:
       ACCOUNT_SERVICE_PASSWORD: 'password'
       MONGODB_PASSWORD: 'password'
     image: sqshq/piggymetrics-account-service
-    depends_on:
-      - config
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   account-mongodb:
     environment:
       INIT_DUMP: account-service-dump.js
       MONGODB_PASSWORD: 'password'
     image: sqshq/piggymetrics-mongodb
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   statistics-service:
     environment:
@@ -67,13 +99,21 @@ services:
       MONGODB_PASSWORD: 'password'
       STATISTICS_SERVICE_PASSWORD: 'password'
     image: sqshq/piggymetrics-statistics-service
-    depends_on:
-      - config
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   statistics-mongodb:
     environment:
       MONGODB_PASSWORD: 'password'
     image: sqshq/piggymetrics-mongodb
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   notification-service:
     environment:
@@ -82,20 +122,31 @@ services:
       NOTIFICATION_SERVICE_PASSWORD: 'password'
     image: sqshq/piggymetrics-notification-service
     restart: always
-    depends_on:
-      - config
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   notification-mongodb:
     image: sqshq/piggymetrics-mongodb
     environment:
       MONGODB_PASSWORD: 'password'
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
 
   monitoring:
     environment:
       CONFIG_SERVICE_PASSWORD: 'password'
     image: sqshq/piggymetrics-monitoring
-    depends_on:
-      - config
     ports:
       - 9000:8080
       - 8989:8989
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: always
