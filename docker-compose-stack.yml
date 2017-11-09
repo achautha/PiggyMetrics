@@ -41,6 +41,26 @@ services:
     depends_on:
       - config
 
+  auth-mongodb:
+    environment:
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-mongodb
+
+  account-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: 'password'
+      ACCOUNT_SERVICE_PASSWORD: 'password'
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-account-service
+    depends_on:
+      - config:
+
+  account-mongodb:
+    environment:
+      INIT_DUMP: account-service-dump.js
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-mongodb
+
   monitoring:
     environment:
       CONFIG_SERVICE_PASSWORD: 'password'
