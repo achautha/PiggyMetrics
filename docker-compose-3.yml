@@ -8,7 +8,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   config:
     environment:
@@ -20,7 +20,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   registry:
     environment:
@@ -32,7 +32,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   gateway:
     environment:
@@ -44,7 +44,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   auth-service:
     environment:
@@ -58,7 +58,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   auth-mongodb:
     environment:
@@ -68,7 +68,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   account-service:
     environment:
@@ -80,7 +80,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   account-mongodb:
     environment:
@@ -91,7 +91,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   statistics-service:
     environment:
@@ -103,7 +103,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   statistics-mongodb:
     environment:
@@ -113,7 +113,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   notification-service:
     environment:
@@ -121,12 +121,12 @@ services:
       MONGODB_PASSWORD: 'password'
       NOTIFICATION_SERVICE_PASSWORD: 'password'
     image: sqshq/piggymetrics-notification-service
-    restart: always
+    
     logging:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   notification-mongodb:
     image: sqshq/piggymetrics-mongodb
@@ -136,7 +136,7 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
 
   monitoring:
     environment:
@@ -149,4 +149,4 @@ services:
       options:
         max-size: "10m"
         max-file: "10"
-    restart: always
+    
