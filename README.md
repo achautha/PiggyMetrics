@@ -241,6 +241,16 @@ Just copy `docker-compose.yml` and hit `docker-compose up`
 If you'd like to build images yourself (with some changes in the code, for example), you have to clone all repository and build artifacts with maven. Then, run `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
 `docker-compose.dev.yml` inherits `docker-compose.yml` with additional possibility to build images locally and expose all containers ports for convenient development.
+#### On PWD ( Play with docker ) sandbox
+
+`docker service create \
+    --name portainer \
+    --publish 9009:9000 \
+    --constraint 'node.role == manager' \
+    --mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
+    portainer/portainer \
+    -H unix:///var/run/docker.sock
+`
 
 #### Important endpoints
 - http://localhost:80 - Gateway

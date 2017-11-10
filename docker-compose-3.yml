@@ -95,7 +95,53 @@ services:
     deploy:
       placement:
         constraints:
+          - node.role == manager
+          - node.hostname == manager3
+
+  statistics-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: 'password'
+      MONGODB_PASSWORD: 'password'
+      STATISTICS_SERVICE_PASSWORD: 'password'
+    image: sqshq/piggymetrics-statistics-service
+    depends_on:
+       - config
+    deploy:
+      placement:
+        constraints:
           - node.role == worker
+
+  statistics-mongodb:
+    environment:
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-mongodb
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+          - node.hostname == manager2
+
+  notification-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: 'password'
+      MONGODB_PASSWORD: 'password'
+      NOTIFICATION_SERVICE_PASSWORD: 'password'
+    image: sqshq/piggymetrics-notification-service
+    depends_on:
+       - config
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+
+  notification-mongodb:
+    image: sqshq/piggymetrics-mongodb
+    environment:
+      MONGODB_PASSWORD: 'password'
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
           - node.hostname == manager3
 
   monitoring:
