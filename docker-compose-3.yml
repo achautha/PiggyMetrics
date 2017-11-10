@@ -57,6 +57,8 @@ services:
       ACCOUNT_SERVICE_PASSWORD: 'password'
       MONGODB_PASSWORD: 'password'
     image: sqshq/piggymetrics-auth-service
+    depends_on:
+       - config
     deploy:
       placement:
         constraints:
@@ -69,8 +71,32 @@ services:
     deploy:
       placement:
         constraints:
+          - node.role == manager
+          - node.hostname == manager2
+
+  account-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: 'password'
+      ACCOUNT_SERVICE_PASSWORD: 'password'
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-account-service
+    depends_on:
+       - config
+    deploy:
+      placement:
+        constraints:
           - node.role == worker
 
+  account-mongodb:
+    environment:
+      INIT_DUMP: account-service-dump.js
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-mongodb
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+          - node.hostname == manager3
 
   monitoring:
     environment:
