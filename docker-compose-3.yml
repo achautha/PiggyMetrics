@@ -22,7 +22,7 @@ services:
           - node.role == manager
           - node.hostname == manager2
 
-   registry:
+  registry:
     environment:
       CONFIG_SERVICE_PASSWORD: 'password'
     image: sqshq/piggymetrics-registry
@@ -48,6 +48,29 @@ services:
        placement:
          constraints:
            - node.role == worker
+
+  auth-service:
+    environment:
+      CONFIG_SERVICE_PASSWORD: 'password'
+      NOTIFICATION_SERVICE_PASSWORD: 'password'
+      STATISTICS_SERVICE_PASSWORD: 'password'
+      ACCOUNT_SERVICE_PASSWORD: 'password'
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-auth-service
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+
+  auth-mongodb:
+    environment:
+      MONGODB_PASSWORD: 'password'
+    image: sqshq/piggymetrics-mongodb
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+
 
   monitoring:
     environment:
