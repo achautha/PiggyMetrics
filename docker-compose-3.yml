@@ -72,7 +72,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname == manager2
+          - node.hostname == manager1
 
   account-service:
     environment:
@@ -119,7 +119,7 @@ services:
       placement:
         constraints:
           - node.role == manager
-          - node.hostname == manager2
+          - node.hostname == manager1
 
   notification-service:
     environment:
