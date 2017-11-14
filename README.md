@@ -3,7 +3,6 @@
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/sqshq/PiggyMetrics/blob/master/LICENCE)
 [![Join the chat at https://gitter.im/sqshq/PiggyMetrics](https://badges.gitter.im/sqshq/PiggyMetrics.svg)](https://gitter.im/sqshq/PiggyMetrics?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/achautha/PiggyMetrics/master/docker-compose-3.yml&stack_name=piggymetrics)
 
 # Piggy Metrics
 
@@ -243,15 +242,34 @@ If you'd like to build images yourself (with some changes in the code, for examp
 `docker-compose.dev.yml` inherits `docker-compose.yml` with additional possibility to build images locally and expose all containers ports for convenient development.
 #### On PWD ( Play with docker ) sandbox
 
-`docker service create \
-    --name portainer \
-    --publish 9009:9000 \
-    --constraint 'node.role == manager' \
-    --mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
-    portainer/portainer \
-    -H unix:///var/run/docker.sock
-`
+1. Open https://labs.play-with-docker.com/ in browser
+2. Login using your dockerhub id
+3. Create 5 node Swarm cluster using predefined templates ( 3 Manager 2 workers) 
+4. On node Manager1
+    - Run Portainer dashoard for managing Swarm cluster as follows
 
+    ```
+    docker service create \
+        --name portainer \
+        --publish 9009:9000 \
+        --constraint 'node.role == manager' \
+        --mount type=bind,src=//var/run/docker.sock,dst=/var/run/docker.sock \
+        portainer/portainer \
+        -H unix:///var/run/docker.sock
+    ```
+    - Download docker compose file for deploying PiggyMetrics application on Swarm Cluster
+
+    ```
+        curl -LOk https://raw.githubusercontent.com/achautha/PiggyMetrics/master/docker-compose-3.yml
+    ``` 
+
+    - Run docker stack command to deploy PiggyMetrics microservices
+    
+    ```
+        docker stack deploy -c docker-compose-3.yml piggy
+    ```
+5. Login to Portainer UI and check the status of all microservices. 
+    
 #### Important endpoints
 - http://localhost:80 - Gateway
 - http://localhost:8761 - Eureka Dashboard
